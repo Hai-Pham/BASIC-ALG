@@ -48,6 +48,29 @@ def push_zero_left(a):
     for aa in a: print aa,
 
 
+
+
+"""
+This algorithm is very much shorter using different strategy
+traverse from left -> right, if there's a zero then swap it with the first non-zero element from the top
+Also needs 2 index:
+    count: the number of zero elements, started from -1 (first match will swap with a[0]
+    i: traverse inside the array
+"""
+def push_zero_left2(a):
+    l = len(a)
+    count = -1
+    for i in range(l):
+        if a[i] == 0:
+            count += 1
+            # swap a[i] and a[count]
+            temp = a[i]
+            a[i] = a[count]
+            a[count] = temp
+
+    for aa in a: print aa,
+
+
 # TEST
 a = [1, 5, 0 , 7 , 0, 8, 0, 9, 0]
 push_zero_right(a)
@@ -55,5 +78,5 @@ push_zero_right(a)
 
 
 print
-push_zero_left(a)
+push_zero_left2(a)
 # 0 0 0 0 1 5 7 8 9
