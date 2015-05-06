@@ -29,18 +29,18 @@ Hint: Turning your recursive characterization into a recursive algorithm and wor
 
 
 class Knapsack(object):
+
     """ The format of the file is:
         Line 1: Capacity  + number of items
         Line 2: value1   weight1
-        Line 3: value2   weight 2
+        Line 3: value2   weight2
         ...
     """
-
     def __init__(self, inFile):
         try:
             inFile = open(inFile, 'r')
         except IOError as e:
-            print("Cannot open file:" + e)
+            print("Cannot open file:" + str(e))
 
         weights = []
         values = []
@@ -60,12 +60,11 @@ class Knapsack(object):
 
 
 
-    """ The format of the file is 3 lines:
+    """ If the format of the file is 3 lines:
         Line 1: Capacity  + number of items
         Line 2: value1   value2    ...
         Line 3: weight1  weight2   ...
     """
-
     # def __init__(self, inFile):
     #     try:
     #         inFile = open(inFile, 'r')
@@ -125,7 +124,8 @@ class Knapsack(object):
         else:
             # can take it
             # but compared with not to take, which is better
-            return max(self.recursive(m-1, W, weights, values), self.recursive(m-1, W - weights[m-1], weights, values) + values[m-1])
+            return max(self.recursive(m-1, W, weights, values),
+                       self.recursive(m-1, W - weights[m-1], weights, values) + values[m-1])
 
         return tot
 
@@ -139,7 +139,8 @@ class Knapsack(object):
         """
         lookup table (m+1) x (W+1)
         base case is that index of W or m is 0
-        index adjustment: at line, the process is for weights[i-1] and values[i-1] as python supports from-zero index
+        index adjustment: at line, the process is for weights[i-1]
+        and values[i-1] as python supports from-zero index
         """
 
         T = [[-1 for __ in range(W+1)] for _ in range(m+1)]
@@ -164,9 +165,6 @@ class Knapsack(object):
 
 
 					
-					
-					
-					
         # record taken values, from top-down
         taken = []
         x = W
@@ -177,29 +175,27 @@ class Knapsack(object):
                     x -= weights[i-1]
 
 
-
-
 		# printout lookup table (optional) 
-        for i in reversed(range(m+1)): print i, T[i][W - weights[i-1]] , T[i][W]
-        #     for j in range(W+1):
-        #         print T[i][j],
-        #     print ""
+        # for i in reversed(range(m+1)): print i, T[i][W - weights[i-1]] , T[i][W]
+         #    for j in range(W+1):
+         #        print T[i][j],
+         #    print ""
 
-        # print out taken items
+        #print out taken items
         print "Taken item(s): "
         check = 0
         for t in taken:
             check += values[t[0]]
             print t,
+        #
+        #
+        # # output to file
+        # f = open('output.txt', 'w')
+        # print >> f, T[m][W], "\n"
+        # for r in taken: print >> f, r
+        # f.close()
 
-
-        # output to file
-        f = open('output.txt', 'w')
-        print >> f, T[m][W], "\n"
-        for r in taken: print >> f, r
-        f.close()
-
-        print "\ndouble check: " + str(check)
+        # print "\ndouble check: " + str(check)
         return T[m][W]
 
 
@@ -328,16 +324,19 @@ testKnapsack = Knapsack(inputFile)
 # for i in testKnapsack.getWeights(): print i,
 
 print "Testing the bottom up program with table lookup"
-tot2 =  testKnapsack.memoizedBottomUp(testKnapsack.getNumItems(), testKnapsack.getCapacity(), testKnapsack.getWeights(), testKnapsack.getValues())
+tot2 =  testKnapsack.memoizedBottomUp(testKnapsack.getNumItems(),
+                                      testKnapsack.getCapacity(), testKnapsack.getWeights(), testKnapsack.getValues())
 print "\ntotal value is", tot2
 
 print "Testing the bottom up program with 2 arrays lookup"
 import time
 start_time = time.time()
 print "first result"
-print testKnapsack.optimizedMemoizedBottomUp(testKnapsack.getNumItems(), testKnapsack.getCapacity(), testKnapsack.getWeights(), testKnapsack.getValues())
+print testKnapsack.optimizedMemoizedBottomUp(testKnapsack.getNumItems(),
+                                    testKnapsack.getCapacity(), testKnapsack.getWeights(), testKnapsack.getValues())
 print "second result"
-tot3 =  testKnapsack.opz(testKnapsack.getNumItems(), testKnapsack.getCapacity(), testKnapsack.getWeights(), testKnapsack.getValues())
+tot3 =  testKnapsack.opz(testKnapsack.getNumItems(),
+                         testKnapsack.getCapacity(), testKnapsack.getWeights(), testKnapsack.getValues())
 print "total time executed is: ", time.time() - start_time, " seconds"
 print "\ntotal value is", tot3
 
